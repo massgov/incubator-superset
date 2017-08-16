@@ -165,7 +165,19 @@ export const controls = {
       ['YlGnBu', 'yellow/green/blue'],
     ],
     default: 'blue_white_yellow',
-    description: '',
+    description: 'Pick a linear color scheme to be applied to your visualization',
+  },
+  
+  scale_color_scheme: {
+    type: 'SelectControl',
+    label: 'Color Scale',
+    choices: [
+      ['linear', 'linear'],
+      ['quantile', 'quantile'],
+      ['quantize', 'quantize'],
+    ],
+    default: 'linear',
+    description: 'Define the type of color scale to apply to your visualization.',
   },
 
   normalize_across: {
