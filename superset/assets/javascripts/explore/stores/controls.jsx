@@ -194,7 +194,7 @@ export const controls = {
       ['8', '8'],
       ['9', '9'],
     ],
-    default: 3,
+    default: '3',
     description: 'Specify the number of categories for your visualization',
   },
     
