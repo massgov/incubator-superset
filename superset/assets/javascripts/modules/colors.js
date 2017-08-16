@@ -78,10 +78,11 @@ export const category21 = (function () {
   };
 }());
 
-export const colorScalerFactory = function (colors, data, accessor, country, scale) {
+export const colorScalerFactory = function (colors, data, accessor, country, scale, category) {
   if (typeof country === 'undefined') { country = 'notmap'; }
   if (typeof scale === 'undefined') { scale = 'linear'; }
-  console.log(scale);
+  if (typeof category == 'undefined') { category == 3; }
+  console.log(category);
   // Returns a linear scaler our of an array of color
   if (!Array.isArray(colors)) {
     /* eslint no-param-reassign: 0 */
