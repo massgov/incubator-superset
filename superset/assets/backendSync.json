@@ -249,6 +249,50 @@
       "default": "blue_white_yellow",
       "description": ""
     },
+    "category": {
+      "type": "SelectControl",
+      "label": "Number of Categories",
+      "choices": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "2"
+        ],
+        [
+          "3",
+          "3"
+        ],
+        [
+          "4",
+          "4"
+        ],
+        [
+          "5",
+          "5"
+        ],
+        [
+          "6",
+          "6"
+         ],
+        [
+          "7",
+          "7"
+        ],
+        [
+          "8",
+          "8"
+        ],
+        [
+          "9",
+          "9"
+        ]
+      ],
+      "default": "3",
+      "description": ""
+    },
     "normalize_across": {
       "type": "SelectControl",
       "label": "Normalize Across",
