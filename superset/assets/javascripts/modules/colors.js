@@ -1,8 +1,8 @@
 import $ from 'jquery';
 import d3 from 'd3';
-import 'd3Color' from 'd3-color';
-import 'd3Interpolate' from 'd3-interpolate';
-import 'd3ScaleChromatic' from 'd3-scale-chromatic';
+import d3Color from 'd3-color';
+import d3Interpolate from 'd3-interpolate';
+import d3ScaleChromatic from 'd3-scale-chromatic';
 
 // Color related utility functions go in this object
 export const bnbColors = [
