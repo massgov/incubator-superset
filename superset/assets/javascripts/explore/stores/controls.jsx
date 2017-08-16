@@ -179,7 +179,25 @@ export const controls = {
     default: 'linear',
     description: 'Define the type of color scale to apply to your visualization.',
   },
-
+  
+  category: {
+    type: 'SelectControl',
+    label: 'Number of Categories',
+    choices: [
+      [1, 'one'],
+      [2, 'two'],
+      [3, 'three'],
+      [4, 'four'],
+      [5, 'five'],
+      [6, 'six'],
+      [7, 'seven'],
+      [8, 'eight'],
+      [9, 'nine'],
+    ],
+    default: 3,
+    description: 'Specify the number of categories for your visualization',
+  },
+    
   normalize_across: {
     type: 'SelectControl',
     label: 'Normalize Across',
