@@ -1,5 +1,8 @@
 import $ from 'jquery';
 import d3 from 'd3';
+import * from 'd3-color';
+import * 'd3-interpolate';
+import * 'd3-scale-chromatic';
 
 // Color related utility functions go in this object
 export const bnbColors = [
@@ -83,6 +86,7 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   if (typeof scale === 'undefined') { scale = 'linear'; }
   if (typeof category == 'undefined') { category == 3; }
   console.log(category);
+  console.log(d3.interpolateRdYlBu(0.5))
   // Returns a linear scaler our of an array of color
   if (!Array.isArray(colors)) {
     /* eslint no-param-reassign: 0 */
