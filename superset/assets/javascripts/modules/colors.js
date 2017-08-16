@@ -97,12 +97,12 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   $.each(colors, function (i) {
     points.push(i * chunkSize);
   });
-  if (country == 'map'){
-    console.log(data.map( function(d) { return d['metric']; } ));
-    console.log(colors)
-    //console.log(d3.scale.quantile().domain(points).range(colors));
+  if (scale == 'quantile'){
     return d3.scale.quantile().domain(data.map( function(d) { return d['metric']; } )).range(colors);
-  } else {
+  } else if (scale == 'quantize'){
+    return d3.scale.quantize().domain(data.map( function(d) { return d['metric']; } )).range(colors);
+  }
+  else {
     return d3.scale.linear().domain(points).range(colors);
   }
   //return d3.scale.quantize().domain(points).range(colors);
