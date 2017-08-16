@@ -681,7 +681,7 @@ export const visTypes = {
           ['select_country'],
           ['entity'],
           ['metric'],
-          ['category']
+          ['category'],
           ['scale_color_scheme'],
           ['linear_color_scheme'],
         ],
