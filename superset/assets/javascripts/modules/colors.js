@@ -1,8 +1,10 @@
 import $ from 'jquery';
 import d3 from 'd3';
-import d3Color from 'd3-color';
-import d3Interpolate from 'd3-interpolate';
-import d3ScaleChromatic from 'd3-scale-chromatic';
+import { colorbrewer } from './colorbrewer';
+//need d3 v4 for this stuff to work
+//import d3Color from 'd3-color';
+//import d3Interpolate from 'd3-interpolate';
+//import { schemeRdYlBu, interpolateRdYlBu} from 'd3-scale-chromatic';
 
 // Color related utility functions go in this object
 export const bnbColors = [
@@ -85,13 +87,16 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   if (typeof country === 'undefined') { country = 'notmap'; }
   if (typeof scale === 'undefined') { scale = 'linear'; }
   if (typeof category == 'undefined') { category == 3; }
-  console.log(category);
-  console.log(d3.interpolateRdYlBu(0.5))
   // Returns a linear scaler our of an array of color
-  if (!Array.isArray(colors)) {
+  
+  if(country == 'map'){
+    colors = colorbrewer[colors][category];
+  }
+  else{
+    if (!Array.isArray(colors)) {
     /* eslint no-param-reassign: 0 */
-    colors = spectrums[colors];
-    
+    colors = spectrums[colors]; 
+    }
   }
   let ext = [0, 1];
   if (data !== undefined) {
@@ -110,5 +115,4 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   else {
     return d3.scale.linear().domain(points).range(colors);
   }
-  //return d3.scale.quantize().domain(points).range(colors);
 };
