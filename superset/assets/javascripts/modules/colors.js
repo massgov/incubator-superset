@@ -88,7 +88,6 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   if (typeof scale === 'undefined') { scale = 'linear'; }
   if (typeof category == 'undefined') { category == 3; }
   // Returns a linear scaler our of an array of color
-  
   if(country == 'map'){
     colors = colorbrewer[colors][category];
   }
