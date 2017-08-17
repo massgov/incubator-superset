@@ -156,7 +156,7 @@ export const controls = {
 
   linear_color_scheme: {
     type: 'SelectControl',
-    label: 'Linear Color Scheme',
+    label: 'Color Scheme',
     choices: [
       ['fire', 'fire'],
       ['blue_white_yellow', 'blue/white/yellow'],
@@ -196,7 +196,7 @@ export const controls = {
       ['Set3','set3'],
     ],
     default: 'blue_white_yellow',
-    description: 'Pick a linear color scheme to be applied to your visualization',
+    description: 'Pick a color scheme to apply to your visualization. To learn more about these color schemes, visit colorbrewer: http://colorbrewer2.org/',
   },
   
   scale_color_scheme: {
