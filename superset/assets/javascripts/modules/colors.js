@@ -91,6 +91,7 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   const full_color_scheme = colorbrewer[colors]
   const max_color_categories = Object.keys(full_color_scheme)[Object.keys(full_color_scheme).length - 1]
   const min_color_categories = Object.keys(full_color_scheme)[0]
+  
   // Returns a linear scaler our of an array of color
   if(country == 'map'){
     colors = colorbrewer[colors][category];
@@ -106,9 +107,6 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
     ext = d3.extent(data, accessor);
   }
 
-  console.log(category + " max: " + max_color_categories + " min: " + min_color_categories)
-  console.log(category > Number(max_color_categories))
-  console.log(category < Number(min_color_categories))
   if (category > Number(max_color_categories) || category < Number(min_color_categories)){
     const x = d3.select("div.chart-container div.panel-body");
     x.append('div').attr('class', 'alert-warning color-warning').attr('role','alert').text('You have selected a number of categories (' + category + ') outside of the bounds of the the color scheme - ' + color_scheme + '. Please select a different color scheme or a different number of categories.');
@@ -120,12 +118,9 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
   const points = [];
   const chunkSize = (ext[1] - ext[0]) / colors.length;
 
-  
   $.each(colors, function (i) {
     points.push((i+1) * chunkSize);
   });
-
-  console.log(points)
 
   if (scale == 'quantile'){
     return d3.scale.quantile().domain(data.map( function(d) { return d['metric']; } )).range(colors);
