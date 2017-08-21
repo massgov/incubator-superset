@@ -106,7 +106,10 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
 
   if (category > (Object.keys(full_color_scheme).length+2) || category < (Object.keys(full_color_scheme)[0])){
     const x = d3.select("div.chart-container div.panel-body");
-    x.append('div').attr('class', 'alert-warning').attr('role','alert').text('You have selected a number of categories (' + category + ') outside of the bounds of the the color scheme - ' + color_scheme + '. Please select a different color scheme or a different number of categories.');
+    x.append('div').attr('class', 'alert-warning color-warning').attr('role','alert').text('You have selected a number of categories (' + category + ') outside of the bounds of the the color scheme - ' + color_scheme + '. Please select a different color scheme or a different number of categories.');
+  }
+  else {
+    d3.select("div.color-warning").remove()
   }
     
   const points = [];
