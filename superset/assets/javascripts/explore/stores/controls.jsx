@@ -383,7 +383,7 @@ export const controls = {
   },
   select_country: {
     type: 'SelectControl',
-    label: 'Country Name',
+    label: 'Geographic Boundary',
     default: 'France',
     choices: [
       'Belgium',
@@ -401,9 +401,9 @@ export const controls = {
       'Uk',
       'Ukraine',
       'Usa',
-      'Massachusetts',
+      'Massachusetts (Municipalities)',
     ].map(s => [s, s]),
-    description: 'The name of country that Superset should display',
+    description: 'The name of geographic boundary that Superset should display',
   },
   country_fieldtype: {
     type: 'SelectControl',
