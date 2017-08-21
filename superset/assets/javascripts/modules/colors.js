@@ -114,15 +114,21 @@ export const colorScalerFactory = function (colors, data, accessor, country, sca
     
   const points = [];
   const chunkSize = (ext[1] - ext[0]) / colors.length;
+  
   $.each(colors, function (i) {
-    points.push(i * chunkSize);
+    points.push((i+1) * chunkSize);
   });
+
+  console.log(chunkSize)
+  console.log(points)
+
   if (scale == 'quantile'){
     return d3.scale.quantile().domain(data.map( function(d) { return d['metric']; } )).range(colors);
   } else if (scale == 'quantize'){
     return d3.scale.quantize().domain(data.map( function(d) { return d['metric']; } )).range(colors);
   }
   else {
+    console.log(d3.scale.linear().domain(ext).range(colors))
     return d3.scale.linear().domain(points).range(colors);
   }
 };
