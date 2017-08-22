@@ -158,10 +158,10 @@ export const controls = {
     type: 'SelectControl',
     label: 'Color Scheme',
     choices: [
-      ['fire', 'fire'],
+      /*['fire', 'fire'],
       ['blue_white_yellow', 'blue/white/yellow'],
       ['white_black', 'white/black'],
-      ['black_white', 'black/white'],
+      ['black_white', 'black/white'],*/
       ['YlGnBu', 'yellow/green/blue'],
       ['YlGn', 'yellow/green'],
       ['GnBu', 'green/blue'],

@@ -802,6 +802,8 @@ export const visTypes = {
       {
         label: 'Heatmap Options',
         controlSetRows: [
+          ['category'],
+          ['scale_color_scheme'],
           ['linear_color_scheme'],
           ['xscale_interval', 'yscale_interval'],
           ['canvas_image_rendering'],
