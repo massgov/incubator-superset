@@ -72,7 +72,7 @@ function countryMapChart(slice, payload) {
             bigTextY = 0;
             resultTextX = 0;
             resultTextY = 0;
-            bigTextSize = '30px';
+            bigTextSize = '40px';
             k = 1;
             centered = null;
         }
@@ -83,7 +83,8 @@ function countryMapChart(slice, payload) {
         bigText.transition()
             .duration(750)
             .attr('transform', 'translate(0,0)translate(' + bigTextX + ',' + bigTextY + ')')
-            .style('font-size', bigTextSize);
+            .style('font-size', bigTextSize)
+            .style('text-shadow', '-1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff');
         resultText.transition()
             .duration(750)
             .attr('transform', 'translate(0,0)translate(' + resultTextX + ',' + resultTextY + ')');
