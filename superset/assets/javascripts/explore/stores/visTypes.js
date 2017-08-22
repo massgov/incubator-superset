@@ -684,6 +684,7 @@ export const visTypes = {
           ['category'],
           ['scale_color_scheme'],
           ['linear_color_scheme'],
+          ['number_format'],
         ],
       },
     ],

@@ -3,6 +3,8 @@ import './country_map.css';
 import {
     colorScalerFactory
 } from '../javascripts/modules/colors';
+import d3tip from 'd3-tip';
+import '../stylesheets/d3tip.css';
 
 
 function countryMapChart(slice, payload) {
@@ -14,6 +16,7 @@ function countryMapChart(slice, payload) {
     let resultText;
     const container = slice.container;
     const data = payload.data;
+    const number_format = d3.format(fd.number_format);
 
     const colorScaler = colorScalerFactory(fd.linear_color_scheme, data, v => v.metric, fd.scale_color_scheme, fd.category);
 
@@ -26,6 +29,12 @@ function countryMapChart(slice, payload) {
     let centered;
     path = d3.geo.path();
     d3.select(slice.selector).selectAll('*').remove();
+
+    d3.selectAll("div.country_map div#legend").remove();
+    const map_legend = d3.select("div.country_map");
+    map_legend.append('div').attr('id', 'legend')
+    d3.selectAll("div#legend").append('text').text(fd.metric)
+
     const div = d3.select(slice.selector)
         .append('svg:svg')
         .attr('width', slice.width())
@@ -94,7 +103,7 @@ function countryMapChart(slice, payload) {
 
     const updateMetrics = function(region) {
         if (region.length > 0) {
-            resultText.text(d3.format(',')(region[0].metric));
+            resultText.text(number_format(region[0].metric));
         }
     };
 
@@ -134,29 +143,23 @@ function countryMapChart(slice, payload) {
         .attr('x', 20)
         .attr('y', 60);
 
-    //Adding legend for our Choropleth
+    var legend = d3.select('#legend')
+        .append('ul')
+        .attr('class', 'list-inline');
 
-    // var legend = svg.selectAll("g.legend")
-    // .data(ext_color_domain)
-    // .enter().append("g")
-    //.attr("class", "legend");
+    var keys = legend.selectAll('li.key')
+        .data(colorScaler.range());
 
-    // var ls_w = 20, ls_h = 20;
-
-    // legend.append("rect")
-    //.attr("x", 20)
-    //.attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
-    //.attr("width", ls_w)
-    //.attr("height", ls_h)
-    //.style("fill", function(d, i) { return color(d); })
-    //.style("opacity", 0.8);
-
-    //legend.append("text")
-    //.attr("x", 50)
-    //.attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
-    //.text(function(d, i){ return legend_labels[i]; });
+    keys.enter().append('li')
+        .attr('class', 'key')
+        .style('border-top-color', String)
+        .text(function(d) {
+            var r = colorScaler.invertExtent(d);
+            return (number_format(r[0]));
+        });
 
     const url = `/static/assets/visualizations/countries/${fd.select_country.toLowerCase()}.geojson`;
+
     d3.json(url, function(error, mapData) {
         const features = mapData.features;
         const center = d3.geo.centroid(mapData);

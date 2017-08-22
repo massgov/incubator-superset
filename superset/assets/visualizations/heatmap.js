@@ -1,10 +1,7 @@
 import d3 from 'd3';
 import $ from 'jquery';
 import d3tip from 'd3-tip';
-
-import {
-    colorScalerFactory
-} from '../javascripts/modules/colors';
+import { colorScalerFactory } from '../javascripts/modules/colors';
 import '../stylesheets/d3tip.css';
 import './heatmap.css';
 
