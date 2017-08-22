@@ -108,18 +108,18 @@ export const colorScalerFactory = function(colors, data, accessor, scale, catego
     }
 
     const points = [];
-    const chunkSize = (ext[1] - ext[0]) / colors.length;
+    const chunkSize = (ext[1] - ext[0]) / category;
 
-    $.each(colors, function(i) {
-        points.push((i + 1) * chunkSize);
-    });
+    for (var i = 1; i < colors.length; i++) {
+        points.push(ext[0] + (i * chunkSize));
+    }
 
     if (scale == 'quantile') {
         return d3.scale.quantile().domain(data.map(accessor)).range(colors);
     } else if (scale == 'quantize') {
         return d3.scale.quantize().domain(data.map(accessor)).range(colors);
     } else {
-        return d3.scale.linear().domain(points).range(colors);
+        return d3.scale.threshold().domain(points).range(colors);
     }
 
 };

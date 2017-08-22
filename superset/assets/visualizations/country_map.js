@@ -38,10 +38,10 @@ function countryMapChart(slice, payload) {
     const div = d3.select(slice.selector)
         .append('svg:svg')
         .attr('width', slice.width())
-        .attr('height', slice.height())
+        .attr('height', slice.height() - 72)
         .attr('preserveAspectRatio', 'xMidYMid meet');
 
-    container.css('height', slice.height());
+    container.css('height', slice.height() - 72);
     container.css('width', slice.width());
 
     const clicked = function(d) {
@@ -67,7 +67,7 @@ function countryMapChart(slice, payload) {
             centered = d;
         } else {
             x = slice.width() / 2;
-            y = slice.height() / 2;
+            y = (slice.height() - 72) / 2;
             bigTextX = 0;
             bigTextY = 0;
             resultTextX = 0;
@@ -79,7 +79,7 @@ function countryMapChart(slice, payload) {
 
         g.transition()
             .duration(750)
-            .attr('transform', 'translate(' + slice.width() / 2 + ',' + slice.height() / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
+            .attr('transform', 'translate(' + slice.width() / 2 + ',' + (slice.height() - 72) / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
         bigText.transition()
             .duration(750)
             .attr('transform', 'translate(0,0)translate(' + bigTextX + ',' + bigTextY + ')')
@@ -128,7 +128,7 @@ function countryMapChart(slice, payload) {
     div.append('rect')
         .attr('class', 'background')
         .attr('width', slice.width())
-        .attr('height', slice.height())
+        .attr('height', (slice.height() - 72))
         .on('click', clicked);
 
     g = div.append('g');
@@ -143,6 +143,7 @@ function countryMapChart(slice, payload) {
         .attr('x', 20)
         .attr('y', 60);
 
+    //adding legend to map
     var legend = d3.select('#legend')
         .append('ul')
         .attr('class', 'list-inline');
@@ -153,10 +154,15 @@ function countryMapChart(slice, payload) {
     keys.enter().append('li')
         .attr('class', 'key')
         .style('border-top-color', String)
-        .text(function(d) {
-            var r = colorScaler.invertExtent(d);
-            return (number_format(r[0]));
-        });
+        .text(
+            function(d) {
+                var r = colorScaler.invertExtent(d);
+                if (r[0] == null) {
+                    return number_format(d3.min(data, v => v.metric));
+                } else {
+                    return (number_format(r[0]));
+                }
+            });
 
     const url = `/static/assets/visualizations/countries/${fd.select_country.toLowerCase()}.geojson`;
 
@@ -164,7 +170,7 @@ function countryMapChart(slice, payload) {
         const features = mapData.features;
         const center = d3.geo.centroid(mapData);
         let scale = 150;
-        let offset = [slice.width() / 2, slice.height() / 2];
+        let offset = [slice.width() / 2, (slice.height()-72) / 2];
         let projection = d3.geo.mercator().scale(scale).center(center)
             .translate(offset);
 
@@ -172,10 +178,13 @@ function countryMapChart(slice, payload) {
 
         const bounds = path.bounds(mapData);
         const hscale = scale * slice.width() / (bounds[1][0] - bounds[0][0]);
-        const vscale = scale * slice.height() / (bounds[1][1] - bounds[0][1]);
+        const vscale = scale * (slice.height() * 0.75) / (bounds[1][1] - bounds[0][1]);
+        console.log(vscale)
+        console.log(hscale)
         scale = (hscale < vscale) ? hscale : vscale;
+        console.log(scale)
         const offsetWidth = slice.width() - (bounds[0][0] + bounds[1][0]) / 2;
-        const offsetHeigth = slice.height() - (bounds[0][1] + bounds[1][1]) / 2;
+        const offsetHeigth = (slice.height()-72) - (bounds[0][1] + bounds[1][1]) / 2;
         offset = [offsetWidth, offsetHeigth];
         projection = d3.geo.mercator().center(center).scale(scale).translate(offset);
         path = path.projection(projection);
