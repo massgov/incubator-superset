@@ -179,10 +179,7 @@ function countryMapChart(slice, payload) {
         const bounds = path.bounds(mapData);
         const hscale = scale * slice.width() / (bounds[1][0] - bounds[0][0]);
         const vscale = scale * (slice.height() * 0.75) / (bounds[1][1] - bounds[0][1]);
-        console.log(vscale)
-        console.log(hscale)
         scale = (hscale < vscale) ? hscale : vscale;
-        console.log(scale)
         const offsetWidth = slice.width() - (bounds[0][0] + bounds[1][0]) / 2;
         const offsetHeigth = (slice.height()-72) - (bounds[0][1] + bounds[1][1]) / 2;
         offset = [offsetWidth, offsetHeigth];
