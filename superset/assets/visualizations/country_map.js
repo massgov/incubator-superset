@@ -62,7 +62,7 @@ function countryMapChart(slice, payload) {
             bigTextY = centroid[1] - 40;
             resultTextX = centroid[0];
             resultTextY = centroid[1] - 40;
-            bigTextSize = '6px';
+            bigTextSize = '8px';
             k = 4;
             centered = d;
         } else {
@@ -72,7 +72,7 @@ function countryMapChart(slice, payload) {
             bigTextY = 0;
             resultTextX = 0;
             resultTextY = 0;
-            bigTextSize = '40px';
+            bigTextSize = '30px';
             k = 1;
             centered = null;
         }
