@@ -1,6 +1,7 @@
 import d3 from 'd3';
 import './country_map.css';
 import { colorScalerFactory } from '../javascripts/modules/colors';
+import { getExploreUrl } from '../javascripts/explore/exploreUtils';
 
 
 function countryMapChart(slice, payload) {
@@ -14,6 +15,10 @@ function countryMapChart(slice, payload) {
   const data = payload.data;
   const numberFormat = d3.format(fd.number_format);
   const mapLegend = d3.select('div.country_map');
+
+  console.log(fd.data_download)
+  console.log(data)
+  console.log(getExploreUrl(fd, 'csv'))
 
   const colorScaler = colorScalerFactory(
     fd.linear_color_scheme,
@@ -31,6 +36,12 @@ function countryMapChart(slice, payload) {
   let centered;
   path = d3.geo.path();
   d3.select(slice.selector).selectAll('*').remove();
+
+  if(fd.data_download) {
+    var downloadData = d3.select('div.country_map').append('div').attr('class','btn-group results').attr('role','group')
+    var csvButton = downloadData.append('a').attr('href',getExploreUrl(fd, 'csv')).attr('class','btn btn-default btn-sm').attr('title','Export to .csv format').attr('target','_blank').attr('rel','noopener noreferrer').text('csv ').append('i').attr('class','fa fa-file-text-o')
+    var jsonButton = downloadData.append('a').attr('href',getExploreUrl(fd, 'json')).attr('class','btn btn-default btn-sm').attr('title','Export to .json').attr('target','_blank').attr('rel','noopener noreferrer').text('json ').append('i').attr('class','fa fa-file-code-o')
+  }
 
   if (fd.show_map_legend) {
     mapLegend.append('div').attr('id', 'legend');
@@ -201,6 +212,7 @@ function countryMapChart(slice, payload) {
       .on('click', clicked);
   });
   container.show();
+  
 }
 
 module.exports = countryMapChart;

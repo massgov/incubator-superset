@@ -1056,6 +1056,13 @@ export const controls = {
     description: 'Whether to apply filter when table cell is clicked',
   },
 
+  data_download: {
+    type: 'CheckboxControl',
+    label: 'Data Download',
+    default: false,
+    description: 'Whether to make a download of the visualization\'s data available',
+  },
+
   x_axis_showminmax: {
     type: 'CheckboxControl',
     label: 'X bounds',
