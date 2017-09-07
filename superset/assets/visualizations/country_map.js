@@ -37,11 +37,7 @@ function countryMapChart(slice, payload) {
   path = d3.geo.path();
   d3.select(slice.selector).selectAll('*').remove();
 
-  if(fd.data_download) {
-    var downloadData = d3.select('div.country_map').append('div').attr('class','btn-group results').attr('role','group')
-    var csvButton = downloadData.append('a').attr('href',getExploreUrl(fd, 'csv')).attr('class','btn btn-default btn-sm').attr('title','Export to .csv format').attr('target','_blank').attr('rel','noopener noreferrer').text('csv ').append('i').attr('class','fa fa-file-text-o')
-    var jsonButton = downloadData.append('a').attr('href',getExploreUrl(fd, 'json')).attr('class','btn btn-default btn-sm').attr('title','Export to .json').attr('target','_blank').attr('rel','noopener noreferrer').text('json ').append('i').attr('class','fa fa-file-code-o')
-  }
+
 
   if (fd.show_map_legend) {
     d3.select(slice.selector)
@@ -107,6 +103,7 @@ function countryMapChart(slice, payload) {
       .attr('transform', 'translate(0,0)translate(' + resultTextX + ',' + resultTextY + ')');
   };
 
+
   const selectAndDisplayNameOfRegion = function (feature) {
     let name = '';
     if (feature && feature.properties) {
@@ -148,7 +145,7 @@ function countryMapChart(slice, payload) {
     .attr('width', slice.width())
     .attr('height', slice.height())
     .on('click', clicked);
-
+  
   g = div.append('g');
   const mapLayer = g.append('g')
     .classed('map-layer', true);
@@ -160,6 +157,23 @@ function countryMapChart(slice, payload) {
     .classed('result-text', true)
     .attr('x', 20)
     .attr('y', 60);
+
+
+  if (fd.data_download) {
+        var downloadData = div.append('div').attr('class', 'btn-group results').attr('role', 'group');
+        g..append('text').append('a')
+          .attr('x', slice.width()*.9)
+          .attr('y', 20)
+          .attr('href', getExploreUrl(fd, 'csv'))
+          .attr('class', 'btn btn-default btn-sm')
+          .attr('title', 'Export to .csv format')
+          .attr('target', '_blank')
+          .attr('rel', 'noopener noreferrer')
+          .text('csv ')
+          .append('i')
+          .attr('class', 'fa fa-file-text-o');
+        downloadData.append('a').attr('href', getExploreUrl(fd, 'json')).attr('class', 'btn btn-default btn-sm').attr('title', 'Export to .json').attr('target', '_blank').attr('rel', 'noopener noreferrer').text('json ').append('i').attr('class', 'fa fa-file-code-o');
+    }
 
   // Adding legend to map
   const legend = d3.select('#legend')
