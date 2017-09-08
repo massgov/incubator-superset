@@ -2,7 +2,7 @@ import d3 from 'd3';
 import './country_map.css';
 import { colorScalerFactory } from '../javascripts/modules/colors';
 import { getExploreUrl } from '../javascripts/explore/exploreUtils';
-
+import $ from 'jquery';
 
 function countryMapChart(slice, payload) {
   // CONSTANTS
@@ -37,8 +37,6 @@ function countryMapChart(slice, payload) {
   path = d3.geo.path();
   d3.select(slice.selector).selectAll('*').remove();
 
-
-
   if (fd.show_map_legend) {
     d3.select(slice.selector)
       .append('div')
@@ -49,13 +47,33 @@ function countryMapChart(slice, payload) {
     d3.select(slice.selector).select('div#legend').remove();
   }
 
+    // Adding legend to map
+  const legend = d3.select('#legend')
+   .append('ul')
+   .attr('class', 'list-inline');
+
+  const keys = legend.selectAll('li.key')
+    .data(colorScaler.range());
+
+  keys.enter().append('li')
+    .attr('class', 'key')
+    .style('border-top-color', String)
+    .text(
+      function (d) {
+        const r = colorScaler.invertExtent(d);
+        if (r[0] == null) {
+          return numberFormat(d3.min(data, v => v.metric));
+        }
+        return (numberFormat(r[0]));
+      });
+
   const div = d3.select(slice.selector)
     .append('svg:svg')
     .attr('width', slice.width())
-    .attr('height', slice.height())
+    .attr('height', slice.height()-($('#legend').outerHeight()))
     .attr('preserveAspectRatio', 'xMidYMid meet');
 
-  container.css('height', slice.height());
+  container.css('height', slice.height()-($('#legend').outerHeight()));
   container.css('width', slice.width());
 
   const clicked = function (d) {
@@ -81,7 +99,7 @@ function countryMapChart(slice, payload) {
       centered = d;
     } else {
       x = slice.width() / 2;
-      y = slice.height() / 2;
+      y = (slice.height()-$('#legend').outerHeight()) / 2;
       bigTextX = 0;
       bigTextY = 0;
       resultTextX = 0;
@@ -93,7 +111,7 @@ function countryMapChart(slice, payload) {
 
     g.transition()
       .duration(750)
-      .attr('transform', 'translate(' + slice.width() / 2 + ',' + slice.height() / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
+      .attr('transform', 'translate(' + slice.width() / 2 + ',' + (slice.height()-($('#legend').outerHeight())) / 2 + ')scale(' + k + ')translate(' + -x + ',' + -y + ')');
     bigText.transition()
       .duration(750)
       .attr('transform', 'translate(0,0)translate(' + bigTextX + ',' + bigTextY + ')')
@@ -143,7 +161,7 @@ function countryMapChart(slice, payload) {
   div.append('rect')
     .attr('class', 'background')
     .attr('width', slice.width())
-    .attr('height', slice.height())
+    .attr('height', slice.height()-($('#legend').outerHeight()))
     .on('click', clicked);
   
   g = div.append('g');
@@ -160,47 +178,30 @@ function countryMapChart(slice, payload) {
 
 
   if (fd.data_download) {
-        var downloadData = div.append('div').attr('class', 'btn-group results').attr('role', 'group');
-        g..append('text').append('a')
-          .attr('x', slice.width()*.9)
-          .attr('y', 20)
+    var downloadData = g.append('text')
+          .attr('class','viz-data-download')
+          .attr('x', slice.width()*.72)
+          .attr('y', slice.height()*.85)
+          .text('Download data as ')
+
+      downloadData.append('a')
           .attr('href', getExploreUrl(fd, 'csv'))
-          .attr('class', 'btn btn-default btn-sm')
-          .attr('title', 'Export to .csv format')
+          .text('[csv]')
           .attr('target', '_blank')
-          .attr('rel', 'noopener noreferrer')
-          .text('csv ')
-          .append('i')
-          .attr('class', 'fa fa-file-text-o');
-        downloadData.append('a').attr('href', getExploreUrl(fd, 'json')).attr('class', 'btn btn-default btn-sm').attr('title', 'Export to .json').attr('target', '_blank').attr('rel', 'noopener noreferrer').text('json ').append('i').attr('class', 'fa fa-file-code-o');
+      
+      downloadData.append('a')
+          .attr('href', getExploreUrl(fd, 'json'))
+          .text('[json]')
+          .attr('target', '_blank')
     }
 
-  // Adding legend to map
-  const legend = d3.select('#legend')
-   .append('ul')
-   .attr('class', 'list-inline');
-
-  const keys = legend.selectAll('li.key')
-    .data(colorScaler.range());
-
-  keys.enter().append('li')
-    .attr('class', 'key')
-    .style('border-top-color', String)
-    .text(
-      function (d) {
-        const r = colorScaler.invertExtent(d);
-        if (r[0] == null) {
-          return numberFormat(d3.min(data, v => v.metric));
-        }
-        return (numberFormat(r[0]));
-      });
 
   const url = `/static/assets/visualizations/countries/${fd.select_country.toLowerCase()}.geojson`;
   d3.json(url, function (error, mapData) {
     const features = mapData.features;
     const center = d3.geo.centroid(mapData);
     let scale = 150;
-    let offset = [slice.width() / 2, slice.height() / 2];
+    let offset = [slice.width() / 2, (slice.height()-($('#legend').outerHeight())) / 2];
     let projection = d3.geo.mercator().scale(scale).center(center)
       .translate(offset);
 
@@ -208,10 +209,10 @@ function countryMapChart(slice, payload) {
 
     const bounds = path.bounds(mapData);
     const hscale = scale * slice.width() / (bounds[1][0] - bounds[0][0]);
-    const vscale = scale * slice.height() / (bounds[1][1] - bounds[0][1]);
+    const vscale = scale * (slice.height()-($('#legend').outerHeight())) / (bounds[1][1] - bounds[0][1]);
     scale = (hscale < vscale) ? hscale : vscale;
     const offsetWidth = slice.width() - (bounds[0][0] + bounds[1][0]) / 2;
-    const offsetHeigth = slice.height() - (bounds[0][1] + bounds[1][1]) / 2;
+    const offsetHeigth = (slice.height()-($('#legend').outerHeight())) - (bounds[0][1] + bounds[1][1]) / 2;
     offset = [offsetWidth, offsetHeigth];
     projection = d3.geo.mercator().center(center).scale(scale).translate(offset);
     path = path.projection(projection);
@@ -228,6 +229,7 @@ function countryMapChart(slice, payload) {
       .on('mouseout', mouseout)
       .on('click', clicked);
   });
+
   container.show();
   
 }

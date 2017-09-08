@@ -36,7 +36,7 @@
 }
 
 .country_map #legend {
-    padding: 1.5em 0 0 1.5em;
+    padding: 1em 0 0 1em;
 }
 
 div #legend {
@@ -57,3 +57,6 @@ div #legend {
     padding-left: 0;
     padding-right: 0;
 }
+ text.viz-data-download {
+    font-weight: 400;
+ }
