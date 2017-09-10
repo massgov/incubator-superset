@@ -178,10 +178,10 @@ function countryMapChart(slice, payload) {
 
 
   if (fd.data_download) {
-    var downloadData = g.append('text')
+    const downloadData = g.append('text')
           .attr('class','viz-data-download')
-          .attr('x', slice.width()*.72)
-          .attr('y', slice.height()*.85)
+          .attr('x', slice.width() * .72)
+          .attr('y', slice.height() * .8)
           .text('Download data as ')
 
       downloadData.append('a')
