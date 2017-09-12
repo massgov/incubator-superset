@@ -101,7 +101,7 @@ export const visTypes = {
         controlSetRows: [
           ['color_scheme'],
           ['show_legend', 'show_bar_value'],
-          ['bar_stacked', 'order_bars'],
+          ['bar_stacked', 'flip_horizontal', 'order_bars'],
           ['y_axis_format', 'bottom_margin'],
           ['x_axis_label', 'y_axis_label'],
           ['reduce_x_ticks', 'contribution'],

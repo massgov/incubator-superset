@@ -243,6 +243,14 @@ export const controls = {
     description: null,
   },
 
+  flip_horizontal: {
+    type: 'CheckboxControl',
+    label: 'Flip to Horizontal',
+    renderTrigger: true,
+    default: false,
+    description: null,
+  },
+
   pivot_margins: {
     type: 'CheckboxControl',
     label: 'Show totals',

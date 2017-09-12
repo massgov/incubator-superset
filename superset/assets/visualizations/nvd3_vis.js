@@ -21,6 +21,7 @@ const BREAKPOINTS = {
 const addTotalBarValues = function (svg, chart, data, stacked, axisFormat) {
   const format = d3.format(axisFormat || '.3s');
   const countSeriesDisplayed = data.length;
+   //console.log(d.y);
 
   const totalStackedValues = stacked && data.length !== 0 ?
     data[0].values.map(function (bar, iBar) {
@@ -28,7 +29,7 @@ const addTotalBarValues = function (svg, chart, data, stacked, axisFormat) {
         return series.values[iBar];
       });
       return d3.sum(bars, function (d) {
-        return d.y;
+        return d.x;
       });
     }) : [];
 
@@ -144,7 +145,7 @@ function nvd3Vis(slice, payload) {
         chart.interpolate('linear');
         break;
 
-      case 'bar':
+      case 'bar': 
         chart = nv.models.multiBarChart()
         .showControls(fd.show_controls)
         .groupSpacing(0.1);
@@ -168,12 +169,20 @@ function nvd3Vis(slice, payload) {
         break;
 
       case 'dist_bar':
-        chart = nv.models.multiBarChart()
-        .showControls(fd.show_controls)
-        .reduceXTicks(reduceXTicks)
-        .rotateLabels(45)
-        .groupSpacing(0.1); // Distance between each group of bars.
+        if(fd.flip_horizontal) {
+          chart = nv.models.multiBarHorizontalChart()
+          .showControls(fd.show_controls)
+          .groupSpacing(0.1); // Distance between each group of bars.
+        } else {
+          chart = nv.models.multiBarChart()
+          .showControls(fd.show_controls)
+          .reduceXTicks(reduceXTicks)
+          .rotateLabels(45)
+          .groupSpacing(0.1); // Distance between each group of bars.
+        } 
 
+        console.log(fd.show_controls)
+        chart.yAxis.showMaxMin(false);
         chart.xAxis.showMaxMin(false);
 
         stacked = fd.bar_stacked;
